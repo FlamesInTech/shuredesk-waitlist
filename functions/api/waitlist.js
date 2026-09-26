@@ -62,14 +62,28 @@ export async function onRequestPost(context) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, joinedAt, source }),
       });
-      // Apps Script returns 200 with its own {ok, message} body even on its
-      // own internal errors, this is genuinely just for our logs, it never
-      // blocks the visitor's success response, they already got saved to KV.
-      if (!res.ok) {
-        console.warn(`Google Apps Script returned ${res.status} for ${email}`);
+      // Apps Script's error pages (e.g. "Script function not found") still
+      // return HTTP 200 with an HTML body, checking res.ok alone missed this
+      // exact failure mode for real once, silently telling every visitor
+      // "success" while nothing was actually saved to the Sheet. Parse the
+      // body and check its own {ok} field instead of trusting the status.
+      const text = await res.text();
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        console.error(
+          `Google Apps Script for ${email} did not return JSON, likely means the deployed ` +
+            `script is stale or misconfigured (a redeploy is needed in the Apps Script editor). ` +
+            `First 200 chars: ${text.slice(0, 200)}`,
+        );
+        parsed = null;
+      }
+      if (parsed && parsed.ok === false) {
+        console.error(`Google Apps Script rejected the signup for ${email}: ${parsed.message}`);
       }
     } catch (err) {
-      console.warn(`Google Apps Script call failed for ${email}: ${err.message}`);
+      console.error(`Google Apps Script call failed for ${email}: ${err.message}`);
     }
   }
 

@@ -1,5 +1,6 @@
 /* ShureDesk waitlist — same brand system as the real product (apps/web/app/globals.css):
-   warm cream background, one flat royal-blue accent, no gradients, Fraunces + Inter. */
+   warm cream background, one flat royal-blue accent, no gradients, Fraunces + Inter.
+   Kept deliberately short: this is a waitlist, one clear action, not a full site. */
 
 :root {
   --bg: #f4f2ed;
@@ -24,7 +25,7 @@
   --radius-sm: 8px;
   --radius-pill: 999px;
   --shadow-card: 0 1px 2px rgba(11, 11, 16, 0.04);
-  --shadow-lift: 0 20px 50px -20px rgba(11, 11, 16, 0.25);
+  --shadow-lift: 0 24px 60px -20px rgba(11, 11, 16, 0.28);
   color-scheme: light;
 }
 
@@ -144,26 +145,51 @@ a {
 /* ---------- Hero ---------- */
 
 .hero {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 56px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
   align-items: center;
-  padding-block: 72px 56px;
+  padding-block: 88px 72px;
+  overflow: hidden;
 }
 
-/* Grid items default to min-width:auto, which refuses to shrink below the
-   content's intrinsic width (e.g. the signup form's nowrap button) — the
-   classic CSS Grid overflow trap. Without this, the page overflows
-   horizontally at phone width. */
-.hero > div {
+/* A single soft, one-hue glow behind the mockup, not a rainbow gradient,
+   just enough to give the hero depth. Purely decorative, sits behind
+   everything, never interferes with layout or reading order. */
+.hero-glow {
+  position: absolute;
+  top: 10%;
+  right: -10%;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--primary) 14%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-copy,
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  /* Grid items default to min-width:auto, which refuses to shrink below the
+     content's intrinsic width (e.g. the signup form's nowrap button) — the
+     classic CSS Grid overflow trap. Without this, the page overflows
+     horizontally at phone width. */
   min-width: 0;
 }
 
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
-    padding-block: 40px 24px;
-    gap: 36px;
+    padding-block: 48px 32px;
+    gap: 40px;
+  }
+  .hero-glow {
+    width: 380px;
+    height: 380px;
+    top: -5%;
+    right: -15%;
   }
 }
 
@@ -179,7 +205,7 @@ a {
   background: var(--primary-soft);
   border-radius: var(--radius-pill);
   padding: 6px 14px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .eyebrow-dot {
@@ -190,20 +216,20 @@ a {
 }
 
 .hero h1 {
-  font-size: clamp(38px, 5.2vw, 60px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-size: clamp(42px, 6vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
   font-weight: 600;
-  margin: 0 0 20px;
+  margin: 0 0 22px;
   text-wrap: balance;
 }
 
 .hero p.lede {
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.6;
   color: var(--ink-soft);
-  max-width: 52ch;
-  margin: 0 0 32px;
+  max-width: 50ch;
+  margin: 0 0 36px;
 }
 
 /* ---------- Signup form ---------- */
@@ -223,7 +249,7 @@ a {
 .signup-form input[type="email"] {
   flex: 1;
   min-width: 0;
-  padding: 14px 18px;
+  padding: 15px 20px;
   border-radius: var(--radius-pill);
   border: 1.5px solid var(--border);
   background: var(--surface);
@@ -241,7 +267,7 @@ a {
 
 .signup-form button {
   flex: none;
-  padding: 14px 24px;
+  padding: 15px 26px;
   border-radius: var(--radius-pill);
   border: none;
   background: var(--primary);
@@ -250,12 +276,14 @@ a {
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: transform 150ms ease, background 150ms ease;
+  box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--primary) 60%, transparent);
+  transition: transform 150ms ease, background 150ms ease, box-shadow 150ms ease;
   white-space: nowrap;
 }
 
 .signup-form button:hover {
   background: var(--primary-dark);
+  box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--primary) 70%, transparent);
 }
 
 .signup-form button:active {
@@ -265,12 +293,7 @@ a {
 .signup-form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.form-micro {
-  margin-top: 12px;
-  font-size: 13px;
-  color: var(--ink-faint);
+  box-shadow: none;
 }
 
 .form-status {
@@ -317,7 +340,19 @@ a {
   color: var(--ink-soft);
 }
 
-/* ---------- Hero illustration ---------- */
+.trust-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--ink-faint);
+  font-weight: 500;
+}
+
+.trust-dot {
+  opacity: 0.6;
+}
 
 /* ---------- Inbox mockup (hero right column) ---------- */
 
@@ -447,206 +482,7 @@ a {
   border-radius: var(--radius-pill);
 }
 
-/* ---------- Channel ribbon ---------- */
-
-.channel-ribbon {
-  background: var(--surface);
-  border-block: 1px solid var(--border);
-  padding-block: 56px;
-}
-
-.channel-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 760px) {
-  .channel-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .channel-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.channel-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  text-align: center;
-  padding: 20px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--bg);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-}
-
-.channel-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.channel-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.channel-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.channel-name {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-/* ---------- Benefit checklist (Why join section) ---------- */
-
-.benefit-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 420px;
-  margin: 28px auto 0;
-  text-align: left;
-}
-
-.benefit-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14.5px;
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.benefit-check {
-  flex: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.benefit-check svg {
-  width: 12px;
-  height: 12px;
-}
-
-/* ---------- Sections ---------- */
-
-section {
-  padding-block: 56px;
-}
-
-.section-head {
-  max-width: 640px;
-  margin: 0 auto 40px;
-  text-align: center;
-}
-
-.section-head h2 {
-  font-size: clamp(28px, 3.4vw, 38px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-  margin: 0 0 12px;
-}
-
-.section-head p {
-  font-size: 16px;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 900px) {
-  .feature-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 560px) {
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.feature-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-card);
-  transition: transform 180ms ease, box-shadow 180ms ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.feature-tag {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-  background: none !important;
-}
-
-.feature-tag.tint-primary {
-  color: var(--primary);
-}
-.feature-tag.tint-violet {
-  color: var(--violet);
-}
-.feature-tag.tint-amber {
-  color: var(--amber);
-}
-.feature-tag.tint-success {
-  color: var(--success);
-}
-
-.feature-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lift);
-}
-
-.feature-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-
-.feature-icon svg {
-  width: 20px;
-  height: 20px;
-}
+/* ---------- Tint utilities (icon badges throughout) ---------- */
 
 .tint-primary {
   background: var(--primary-soft);
@@ -665,50 +501,105 @@ section {
   color: var(--success);
 }
 
-.feature-card h3 {
-  font-size: 15.5px;
-  font-weight: 600;
-  margin: 0 0 6px;
-}
+/* ---------- Channel strip ---------- */
 
-.feature-card p {
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  margin: 0;
-}
-
-/* ---------- Why join ---------- */
-
-.why-join {
+.channel-strip {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 56px;
-  text-align: center;
+  border-block: 1px solid var(--border);
+  padding-block: 28px;
 }
 
-@media (max-width: 640px) {
-  .why-join {
-    padding: 36px 24px;
+.channel-strip-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.channel-strip-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  flex: none;
+}
+
+.channel-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
+}
+
+.channel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+}
+
+.channel-pill svg {
+  width: 15px;
+  height: 15px;
+  color: var(--primary);
+}
+
+/* ---------- Sections ---------- */
+
+section {
+  padding-block: 64px;
+}
+
+/* ---------- Three highlights ---------- */
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 760px) {
+  .highlight-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
   }
 }
 
-.why-join h2 {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(26px, 3.6vw, 36px);
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 14px;
-  text-wrap: balance;
+.highlight-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
 }
 
-.why-join p {
-  max-width: 56ch;
-  margin: 0 auto;
-  color: var(--ink-soft);
-  font-size: 16px;
+.highlight-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.highlight h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+
+.highlight p {
+  font-size: 14.5px;
   line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 34ch;
 }
 
 /* ---------- Founder's note ---------- */
@@ -721,6 +612,7 @@ section {
   border: 1px solid var(--border);
   border-radius: 28px;
   padding: 44px;
+  box-shadow: var(--shadow-card);
 }
 
 @media (max-width: 700px) {
@@ -734,8 +626,8 @@ section {
 
 .founder-photo {
   flex: none;
-  width: 160px;
-  height: 160px;
+  width: 148px;
+  height: 148px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
@@ -744,8 +636,8 @@ section {
 
 @media (max-width: 700px) {
   .founder-photo {
-    width: 96px;
-    height: 96px;
+    width: 88px;
+    height: 88px;
     margin-inline: auto;
   }
 }
@@ -755,7 +647,7 @@ section {
 }
 
 .founder-quote {
-  font-size: clamp(18px, 2.4vw, 22px);
+  font-size: clamp(18px, 2.2vw, 21px);
   line-height: 1.5;
   font-weight: 500;
   color: var(--ink);
@@ -782,90 +674,47 @@ section {
   color: var(--ink-faint);
 }
 
-/* ---------- FAQ ---------- */
-
-.faq {
-  max-width: 720px;
-  margin-inline: auto;
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--border);
-}
-
-.faq-item:first-child {
-  border-top: 1px solid var(--border);
-}
-
-.faq-q {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-block: 20px;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: 15.5px;
-  font-weight: 500;
-  color: var(--ink);
-  text-align: left;
-  cursor: pointer;
-}
-
-.faq-icon {
-  flex: none;
-  width: 18px;
-  height: 18px;
-  color: var(--ink-faint);
-  transition: transform 200ms ease;
-}
-
-.faq-item[data-open="true"] .faq-icon {
-  transform: rotate(45deg);
-}
-
-.faq-a {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 220ms ease;
-}
-
-.faq-item[data-open="true"] .faq-a {
-  max-height: 200px;
-}
-
-.faq-a p {
-  margin: 0 0 20px;
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: var(--ink-soft);
-  max-width: 60ch;
-}
-
 /* ---------- Final CTA + footer ---------- */
 
 .final-cta {
   text-align: center;
-  padding-block: 64px 40px;
+  padding-block: 72px 48px;
 }
 
 .final-cta h2 {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(30px, 4.2vw, 44px);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 24px;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
 }
 
-.final-cta .signup-form {
-  margin-inline: auto;
+.final-cta-sub {
+  margin: 0 0 28px;
+  font-size: 15px;
+  color: var(--ink-soft);
 }
 
-.final-cta .form-status,
-.final-cta .success-card {
-  margin-inline: auto;
+.final-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--primary) 60%, transparent);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.final-cta-btn:hover {
+  background: var(--primary-dark);
+}
+
+.final-cta-btn:active {
+  transform: scale(0.97);
 }
 
 footer {

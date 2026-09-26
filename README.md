@@ -15,9 +15,7 @@ Cloudflare Pages with no build step and no other services.
   automatically. Lives here for reference, the actual copy that runs is the one
   pasted into your Apps Script project (see below), this file doesn't get deployed
   by Cloudflare, Google Apps Script is its own separate host.
-- The hero illustration is a placeholder SVG inline in `index.html` (search for
-  `hero-art`). Swap it for a real image by replacing that `<svg>...</svg>` block with
-  an `<img src="your-image.png" alt="...">`, drop the image file in this folder first.
+- `assets/founder.png` — the real founder photo used in the founder's note section.
 
 ## How a signup is stored (two layers)
 
@@ -30,17 +28,33 @@ Cloudflare Pages with no build step and no other services.
 
 ### Setting up Google Sheets + the confirmation email
 
-1. Open the Google Sheet you want signups to land in. Set row 1 to exactly:
-   `Timestamp | Email | Source` (columns A, B, C).
+1. Open the Google Sheet you want signups to land in (`getSheet()` in the script
+   sets up the header row automatically if it's missing, but you can also set row 1
+   yourself to exactly: `Timestamp | Email | Source | Emailed`, columns A–D).
 2. In that sheet, go to **Extensions → Apps Script**.
 3. Delete whatever's in `Code.gs` and paste in the contents of this repo's
    `google-apps-script/Code.gs`.
-4. Click **Deploy → New deployment**, type **Web app**, execute as **Me**, access
+4. **Set up the automatic-email safety net (do this once):** in the Apps Script
+   editor's function dropdown (top toolbar), select `setupTrigger`, then click **Run**.
+   This installs a time-based trigger that sweeps every 15 minutes for any row whose
+   "Emailed" column isn't "Yes" and sends it then, a backup on top of the instant send
+   that already happens in `doPost`. Google will ask you to authorize the script the
+   first time, that's expected.
+5. Click **Deploy → New deployment**, type **Web app**, execute as **Me**, access
    **Anyone**. Deploy, and copy the `/exec` URL it gives you.
-5. That URL is already set as the default inside `functions/api/waitlist.js`. If you
+6. That URL is already set as the default inside `functions/api/waitlist.js`. If you
    ever redeploy the script and get a new URL, either update that default directly,
    or set a `GOOGLE_SCRIPT_URL` environment variable in your Cloudflare Pages
    project settings, either way works, the env var wins if both are set.
+
+**Whenever you edit `Code.gs` after the first deploy**, pasting new code into the
+editor does **not** update the live `/exec` URL by itself. You have to go to
+**Deploy → Manage deployments**, click the pencil icon on the existing deployment,
+set **Version** to **New version**, and click **Deploy** again. Skipping this step is
+exactly what caused a real outage during development: the old, empty script kept
+answering at the same URL while the real code sat unpublished, every signup looked
+successful in the widget but nothing ever reached the Sheet. If a signup isn't
+appearing, this is the first thing to check.
 
 Gmail's free-account sending limit is 100 emails/day via `MailApp` (1,500/day on
 Google Workspace), fine for a waitlist, worth knowing if this ever gets genuinely
