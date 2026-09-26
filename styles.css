@@ -252,6 +252,16 @@ a {
   max-width: 460px;
 }
 
+/* A class-based `display` and the browser's built-in [hidden] rule have
+   equal CSS specificity, and this stylesheet loads after the browser's
+   default one, so `display: flex` above was silently winning the tie and
+   `form.hidden = true` (set on success in script.js) did nothing, the form
+   stayed on screen with its disabled "Joining…" button frozen on top of the
+   success card. This rule forces [hidden] to actually win. */
+.signup-form[hidden] {
+  display: none;
+}
+
 @media (max-width: 480px) {
   .signup-form {
     flex-direction: column;
