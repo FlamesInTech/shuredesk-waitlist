@@ -517,49 +517,66 @@ a {
 .channel-strip {
   background: var(--surface);
   border-block: 1px solid var(--border);
-  padding-block: 28px;
+  padding-block: 40px;
 }
 
 .channel-strip-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 22px;
+  text-align: center;
 }
 
 .channel-strip-label {
   font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  flex: none;
 }
 
 .channel-icons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  flex: 1;
+  justify-content: center;
+  gap: 12px;
+  max-width: 560px;
 }
 
 .channel-pill {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-size: 13px;
+  gap: 9px;
+  font-size: 13.5px;
   font-weight: 600;
   color: var(--ink);
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-pill);
-  padding: 7px 14px;
+  padding: 6px 16px 6px 6px;
+  box-shadow: var(--shadow-card);
+  transition: transform 150ms ease, box-shadow 150ms ease;
 }
 
-.channel-pill svg {
-  width: 15px;
-  height: 15px;
-  color: var(--primary);
+.channel-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+
+.channel-pill-icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel-pill-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 /* ---------- Sections ---------- */
