@@ -10,14 +10,43 @@ Cloudflare Pages with no build step and no other services.
   no gradients).
 - `functions/api/waitlist.js` — a Cloudflare Pages Function. Cloudflare automatically
   serves this at `/api/waitlist` the moment it's deployed, no extra config.
+- `google-apps-script/Code.gs` — the Google Apps Script that receives each signup,
+  appends a row to a Google Sheet, and sends the submitter a welcome email
+  automatically. Lives here for reference, the actual copy that runs is the one
+  pasted into your Apps Script project (see below), this file doesn't get deployed
+  by Cloudflare, Google Apps Script is its own separate host.
 - The hero illustration is a placeholder SVG inline in `index.html` (search for
   `hero-art`). Swap it for a real image by replacing that `<svg>...</svg>` block with
   an `<img src="your-image.png" alt="...">`, drop the image file in this folder first.
 
-## One-time Cloudflare setup (you'll need to do this, Claude can't access your account)
+## How a signup is stored (two layers)
 
-The signup form needs somewhere to actually store emails. That's Cloudflare KV, a free
-key-value store Cloudflare gives every account.
+1. **Google Sheets — the real source of truth.** The Cloudflare Function forwards
+   every signup to a Google Apps Script Web App, which appends a row and emails the
+   submitter a confirmation automatically.
+2. **Cloudflare KV — a backup + dedupe check.** Optional but recommended, it's what
+   stops the same email getting a second welcome email if they submit twice, and
+   gives you a fallback copy of the data if Google is ever slow or down.
+
+### Setting up Google Sheets + the confirmation email
+
+1. Open the Google Sheet you want signups to land in. Set row 1 to exactly:
+   `Timestamp | Email | Source` (columns A, B, C).
+2. In that sheet, go to **Extensions → Apps Script**.
+3. Delete whatever's in `Code.gs` and paste in the contents of this repo's
+   `google-apps-script/Code.gs`.
+4. Click **Deploy → New deployment**, type **Web app**, execute as **Me**, access
+   **Anyone**. Deploy, and copy the `/exec` URL it gives you.
+5. That URL is already set as the default inside `functions/api/waitlist.js`. If you
+   ever redeploy the script and get a new URL, either update that default directly,
+   or set a `GOOGLE_SCRIPT_URL` environment variable in your Cloudflare Pages
+   project settings, either way works, the env var wins if both are set.
+
+Gmail's free-account sending limit is 100 emails/day via `MailApp` (1,500/day on
+Google Workspace), fine for a waitlist, worth knowing if this ever gets genuinely
+popular.
+
+### One-time Cloudflare KV setup (optional, but recommended)
 
 1. In the Cloudflare dashboard, go to **Workers & Pages → KV**.
 2. Click **Create a namespace**, name it something like `shuredesk-waitlist`.
@@ -27,8 +56,8 @@ key-value store Cloudflare gives every account.
    created.
 6. Redeploy (or it may pick it up automatically, Cloudflare will prompt you).
 
-Until this binding exists, the form will show "Waitlist storage isn't configured yet"
-instead of silently pretending it saved something, that's intentional, not a bug.
+Without this binding, signups still work, they just skip the dedupe check and the
+KV backup copy, Google Sheets alone still captures everything.
 
 ## Deploying
 
@@ -45,10 +74,10 @@ you split it into its own repo.
 
 ## Viewing who's signed up
 
-For now, open **Workers & Pages → KV → shuredesk-waitlist** in the Cloudflare
-dashboard, every key is `waitlist:<email>` with a JSON value containing the email,
-timestamp, and referring page. Good enough for a first batch of signups; if the list
-grows, ask Claude to build a simple authenticated export page.
+The Google Sheet is the real list, every signup lands there as a new row. Cloudflare
+KV (if bound) is a secondary copy, open **Workers & Pages → KV → shuredesk-waitlist**
+in the Cloudflare dashboard, every key is `waitlist:<email>` with a JSON value
+containing the email, timestamp, and referring page.
 
 ## Local preview
 

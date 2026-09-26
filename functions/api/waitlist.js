@@ -1,11 +1,24 @@
 // Cloudflare Pages Function — deployed automatically at /api/waitlist the
 // moment this file exists in functions/api/, no separate server needed.
 //
-// Storage is Cloudflare KV, bound as WAITLIST_KV. This must be created and
-// bound once in the Cloudflare dashboard before signups will actually save,
-// see waitlist/README.md for the exact steps, Claude cannot provision this
-// for you since it needs your own Cloudflare account.
+// Two storage layers:
+//  1. Google Sheets (via a Google Apps Script Web App) — the source of truth,
+//     also sends the submitter a welcome email automatically. Called
+//     server-to-server from here rather than directly from the browser,
+//     Apps Script's /exec endpoint doesn't send CORS headers a browser
+//     fetch() can read, so calling it client-side either fails outright or
+//     only works blind (no-cors, can't read success/failure).
+//  2. Cloudflare KV, bound as WAITLIST_KV — a backup + dedupe check that
+//     works even if Google is slow or down. See waitlist/README.md for the
+//     one-time KV setup.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Default points at the Apps Script Web App already deployed for this
+// project. Override with a GOOGLE_SCRIPT_URL environment variable in the
+// Cloudflare Pages project settings if the script is ever redeployed to a
+// new URL, no code change needed then.
+const DEFAULT_GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwjHd-zt2CG06F0TLgS1nmJGKOikhHIzgSc9AqaT7vQQazJSgcnLhuPujp2G8TRSrhn1w/exec";
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -22,31 +35,45 @@ export async function onRequestPost(context) {
     return json({ message: "Enter a valid email address." }, 400);
   }
 
-  if (!env.WAITLIST_KV) {
-    // Fails loudly rather than silently pretending the signup was saved,
-    // this is the exact "not configured yet" state until the KV binding
-    // is added in the Cloudflare dashboard.
-    return json({ message: "Waitlist storage isn't configured yet." }, 503);
+  const source = request.headers.get("Referer") || null;
+  const joinedAt = new Date().toISOString();
+
+  // KV dedupe check first, cheap and fast, avoids re-emailing someone who
+  // already joined even if the Sheet call below is slow.
+  let alreadyJoined = false;
+  if (env.WAITLIST_KV) {
+    const existing = await env.WAITLIST_KV.get(`waitlist:${email}`);
+    alreadyJoined = Boolean(existing);
   }
 
-  const key = `waitlist:${email}`;
-  const existing = await env.WAITLIST_KV.get(key);
-  if (existing) {
-    // Already on the list, treat as success, not an error, a visitor
-    // re-submitting shouldn't see a confusing failure message.
-    return json({ ok: true, alreadyJoined: true });
+  if (!alreadyJoined) {
+    // Best-effort, KV is a backup, not the source of truth, a failure here
+    // shouldn't block the real save to the Sheet below.
+    if (env.WAITLIST_KV) {
+      await env.WAITLIST_KV
+        .put(`waitlist:${email}`, JSON.stringify({ email, joinedAt, source }))
+        .catch(() => undefined);
+    }
+
+    const scriptUrl = env.GOOGLE_SCRIPT_URL || DEFAULT_GOOGLE_SCRIPT_URL;
+    try {
+      const res = await fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, joinedAt, source }),
+      });
+      // Apps Script returns 200 with its own {ok, message} body even on its
+      // own internal errors, this is genuinely just for our logs, it never
+      // blocks the visitor's success response, they already got saved to KV.
+      if (!res.ok) {
+        console.warn(`Google Apps Script returned ${res.status} for ${email}`);
+      }
+    } catch (err) {
+      console.warn(`Google Apps Script call failed for ${email}: ${err.message}`);
+    }
   }
 
-  await env.WAITLIST_KV.put(
-    key,
-    JSON.stringify({
-      email,
-      joinedAt: new Date().toISOString(),
-      source: request.headers.get("Referer") || null,
-    }),
-  );
-
-  return json({ ok: true });
+  return json({ ok: true, alreadyJoined });
 }
 
 function json(data, status = 200) {
