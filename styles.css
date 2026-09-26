@@ -1,12 +1,15 @@
 /* ShureDesk waitlist — same brand system as the real product (apps/web/app/globals.css):
-   warm cream background, one flat royal-blue accent, no gradients, Fraunces + Inter.
-   Kept deliberately short: this is a waitlist, one clear action, not a full site. */
+   one flat royal-blue accent, no gradients, Fraunces + Inter. The page
+   background is a deliberate departure from the product's warm cream: a
+   cool, soft blue-white instead, ties into the accent color rather than
+   reading as plain grey. Waitlist-only, the rest of the brand keeps the
+   warm cream. */
 
 :root {
-  --bg: #f4f2ed;
+  --bg: #f5f7fc;
   --surface: #ffffff;
-  --surface-2: #faf8f3;
-  --border: #e6e2d8;
+  --surface-2: #eef1fa;
+  --border: #e1e6f2;
   --ink: #0b0b10;
   --ink-soft: #6b6b76;
   --ink-faint: #a3a3ad;
