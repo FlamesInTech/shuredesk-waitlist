@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShureDesk — Never miss a customer again</title>
+    <meta
+      name="description"
+      content="ShureDesk is one AI that answers your customers everywhere they already message you: live chat, WhatsApp, Instagram, Facebook, and the phone. Join the waitlist."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap nav-inner">
+        <span class="wordmark font-display">ShureDesk</span>
+        <button class="nav-cta" onclick="document.getElementById('email').focus()">Join waitlist</button>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ============ HERO ============ -->
+      <section class="hero wrap">
+        <div class="reveal">
+          <span class="eyebrow"><span class="eyebrow-dot"></span>Coming soon</span>
+          <h1 class="font-display">Never miss a customer again.</h1>
+          <p class="lede">
+            ShureDesk is one AI that answers your customers everywhere they already message you,
+            live chat, WhatsApp, Instagram, Facebook, and the phone, day or night, so you're not
+            the one stuck replying at midnight.
+          </p>
+
+          <form class="signup-form" id="waitlist-form" novalidate>
+            <label for="email" class="sr-only" style="position: absolute; left: -9999px">Email address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email" />
+            <input type="text" name="company" id="company" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px" />
+            <button type="submit" id="submit-btn">Get early access</button>
+          </form>
+          <p class="form-status" id="form-status"></p>
+          <p class="form-micro">No spam. No credit card. Just a message when we're ready for you.</p>
+
+          <div class="success-card" id="success-card">
+            <h3 class="font-display">You're on the list.</h3>
+            <p>We'll email you the moment ShureDesk is ready for early access.</p>
+          </div>
+        </div>
+
+        <!-- Simulated product UI, not a photo — an honest mockup of what the
+             real Inbox looks like, matching the real dashboard's own status
+             labels (AI handling / Needs a reply / Resolved). -->
+        <div class="reveal reveal-delay-1">
+          <div class="inbox-mock">
+            <div class="inbox-mock-head">
+              <span class="inbox-mock-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3" /><path d="M3 9h18" /></svg>
+                Inbox
+              </span>
+              <span class="inbox-mock-status"><span class="dot"></span>Live</span>
+            </div>
+            <ul class="inbox-mock-list">
+              <li>
+                <span class="inbox-avatar tint-success">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2Z" /></svg>
+                </span>
+                <span class="inbox-row-text">
+                  <span class="inbox-row-title">WhatsApp <span class="inbox-row-time">1m ago</span></span>
+                  <span class="inbox-row-preview">"Are you open this Saturday?"</span>
+                </span>
+                <span class="inbox-tag tint-primary">AI handling</span>
+              </li>
+              <li>
+                <span class="inbox-avatar tint-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.2-3.4A7.96 7.96 0 0 1 4 12Z" /></svg>
+                </span>
+                <span class="inbox-row-text">
+                  <span class="inbox-row-title">Live chat <span class="inbox-row-time">3m ago</span></span>
+                  <span class="inbox-row-preview">"Can I get a quote for bulk orders?"</span>
+                </span>
+                <span class="inbox-tag tint-success">Resolved</span>
+              </li>
+              <li>
+                <span class="inbox-avatar tint-amber">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z" /></svg>
+                </span>
+                <span class="inbox-row-text">
+                  <span class="inbox-row-title">Phone <span class="inbox-row-time">6m ago</span></span>
+                  <span class="inbox-row-preview">Asked a question the AI couldn't answer</span>
+                </span>
+                <span class="inbox-tag tint-amber">Needs a reply</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CHANNEL RIBBON ============ -->
+      <section class="channel-ribbon">
+        <div class="wrap">
+          <div class="section-head reveal" style="margin-bottom: 32px">
+            <h2 class="font-display">One AI. Every channel your customers already use.</h2>
+            <p>Rolling out in phases, join the waitlist to hear the moment each one is ready for you.</p>
+          </div>
+          <div class="channel-grid">
+            <div class="channel-item">
+              <span class="channel-icon tint-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.2-3.4A7.96 7.96 0 0 1 4 12Z" /></svg>
+              </span>
+              <span class="channel-name">Live web chat</span>
+            </div>
+            <div class="channel-item">
+              <span class="channel-icon tint-success">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2Z" /></svg>
+              </span>
+              <span class="channel-name">WhatsApp</span>
+            </div>
+            <div class="channel-item">
+              <span class="channel-icon tint-violet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+              </span>
+              <span class="channel-name">Instagram</span>
+            </div>
+            <div class="channel-item">
+              <span class="channel-icon tint-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9" /><path d="M9 10.5 15.5 7l-2 5 2 5-6.5-3.5-3 1.5Z" /></svg>
+              </span>
+              <span class="channel-name">Facebook</span>
+            </div>
+            <div class="channel-item">
+              <span class="channel-icon tint-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z" /></svg>
+              </span>
+              <span class="channel-name">Phone</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FEATURES ============ -->
+      <section class="wrap">
+        <div class="section-head reveal">
+          <h2 class="font-display">What you're getting early access to</h2>
+          <p>Everything below is already built and working, not a roadmap slide.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div>
+              <div class="feature-icon tint-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 12a8 8 0 1 1 3.2 6.4L4 20l1.2-3.4A7.96 7.96 0 0 1 4 12Z" />
+                </svg>
+              </div>
+              <h3>Answers from your own business</h3>
+              <p>It learns your knowledge base, hours, and services. If it doesn't know something, it says so and connects a real person.</p>
+            </div>
+            <div class="feature-tag tint-primary">No guessing, ever</div>
+          </div>
+          <div class="feature-card">
+            <div>
+              <div class="feature-icon tint-violet">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" /><circle cx="12" cy="12" r="0.5" fill="currentColor" />
+                </svg>
+              </div>
+              <h3>One AI, every channel</h3>
+              <p>Chat, WhatsApp, Instagram, Facebook, and the phone, all handled consistently by the same AI.</p>
+            </div>
+            <div class="feature-tag tint-violet">One brain, synced</div>
+          </div>
+          <div class="feature-card">
+            <div>
+              <div class="feature-icon tint-amber">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <h3>Knows when to hand off</h3>
+              <p>When a conversation needs a real person, it escalates straight to your team, in real time.</p>
+            </div>
+            <div class="feature-tag tint-amber">Human in the loop</div>
+          </div>
+          <div class="feature-card">
+            <div>
+              <div class="feature-icon tint-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </div>
+              <h3>Priced for businesses like yours</h3>
+              <p>Anchored to what it actually costs to hire support locally, not US SaaS pricing.</p>
+            </div>
+            <div class="feature-tag tint-success">From $15/month</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ WHY JOIN ============ -->
+      <section class="wrap">
+        <div class="why-join reveal">
+          <h2 class="font-display">Early access means early input.</h2>
+          <p>
+            We're building this in public. Joining the waitlist means you'll help shape what
+            ships next, and you'll get first access the moment we open the doors, before public
+            pricing opens.
+          </p>
+          <div class="benefit-list">
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
+              <span>First access when we open the doors</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
+              <span>A real say in what we build next</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
+              <span>See the build happen, in public, before launch</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section class="wrap">
+        <div class="section-head reveal">
+          <h2 class="font-display">Questions</h2>
+        </div>
+        <div class="faq">
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" aria-expanded="false">
+              When does it launch?
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+            <div class="faq-a">
+              <p>We're building in public right now. Join the waitlist and you'll be the first to know the moment it's ready.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" aria-expanded="false">
+              Do I need to be technical to use it?
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+            <div class="faq-a">
+              <p>No. If you can paste one line of code into your website (or ask someone who can), you can install it.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-open="false">
+            <button class="faq-q" aria-expanded="false">
+              What does it cost?
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            </button>
+            <div class="faq-a">
+              <p>Pricing starts at $15/month. Waitlist members get early access before public pricing opens.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FINAL CTA ============ -->
+      <section class="wrap final-cta">
+        <span class="eyebrow" style="margin-inline: auto"><span class="eyebrow-dot"></span>Priority access</span>
+        <h2 class="font-display">Be first in line.</h2>
+        <form class="signup-form" id="waitlist-form-2" novalidate>
+          <label for="email-2" class="sr-only" style="position: absolute; left: -9999px">Email address</label>
+          <input type="email" id="email-2" name="email" placeholder="Enter your email" required autocomplete="email" />
+          <input type="text" name="company" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px" />
+          <button type="submit" id="submit-btn-2">Join the waitlist</button>
+        </form>
+        <p class="form-status" id="form-status-2"></p>
+        <div class="success-card" id="success-card-2">
+          <h3 class="font-display">You're on the list.</h3>
+          <p>We'll email you the moment ShureDesk is ready for early access.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">&copy; <span id="year"></span> ShureDesk. Built in public.</div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
