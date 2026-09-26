@@ -27,6 +27,18 @@
   --shadow-card: 0 1px 2px rgba(11, 11, 16, 0.04);
   --shadow-lift: 0 24px 60px -20px rgba(11, 11, 16, 0.28);
   color-scheme: light;
+
+  /* Fixed dark-section tokens, deliberate (not tied to the visitor's OS
+   * theme), used for the founder spotlight + closing band so the page has
+   * real rhythm instead of one long cream field. Same values already used
+   * for this file's prefers-color-scheme dark mode, so a dark-mode visitor
+   * sees one consistent dark, not two different darks. */
+  --dark-bg: #0c0b10;
+  --dark-surface: #17151e;
+  --dark-border: #2a2733;
+  --dark-ink: #f5f4f7;
+  --dark-ink-soft: #a3a0ad;
+  --dark-ink-faint: #6b6875;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -602,96 +614,91 @@ section {
   max-width: 34ch;
 }
 
-/* ---------- Founder's note ---------- */
+/* ---------- Founder's note (dark spotlight section) ---------- */
+
+.founder-section {
+  background: var(--dark-bg);
+  padding-block: 96px;
+}
 
 .founder-note {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 40px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 44px;
-  box-shadow: var(--shadow-card);
+  text-align: center;
+  max-width: 700px;
 }
 
-@media (max-width: 700px) {
-  .founder-note {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 28px;
-    gap: 24px;
-  }
+.eyebrow-dark {
+  color: #a9b8ff;
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.eyebrow-dark .eyebrow-dot {
+  background: #a9b8ff;
+}
+
+.founder-photo-wrap {
+  margin: 28px 0 32px;
 }
 
 .founder-photo {
-  flex: none;
-  width: 148px;
-  height: 148px;
+  width: 112px;
+  height: 112px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
-  border: 3px solid var(--primary-soft);
-}
-
-@media (max-width: 700px) {
-  .founder-photo {
-    width: 88px;
-    height: 88px;
-    margin-inline: auto;
-  }
-}
-
-.founder-text {
-  min-width: 0;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 18%, transparent);
+  display: block;
 }
 
 .founder-quote {
-  font-size: clamp(18px, 2.2vw, 21px);
-  line-height: 1.5;
+  font-size: clamp(21px, 2.6vw, 28px);
+  line-height: 1.45;
   font-weight: 500;
-  color: var(--ink);
-  margin: 0 0 18px;
+  color: var(--dark-ink);
+  margin: 0 0 24px;
   text-wrap: balance;
-}
-
-@media (max-width: 700px) {
-  .founder-quote {
-    text-align: left;
-  }
 }
 
 .founder-name {
   margin: 0;
   font-size: 14.5px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--dark-ink);
 }
 
 .founder-title {
-  margin: 2px 0 0;
+  margin: 3px 0 0;
   font-size: 13px;
-  color: var(--ink-faint);
+  color: var(--dark-ink-faint);
 }
 
-/* ---------- Final CTA + footer ---------- */
+/* ---------- Final CTA + footer (same dark band as the founder section) ---------- */
+
+.final-cta-section {
+  background: var(--dark-bg);
+  border-top: 1px solid var(--dark-border);
+}
 
 .final-cta {
   text-align: center;
-  padding-block: 72px 48px;
+  padding-block: 72px 56px;
 }
 
 .final-cta h2 {
   font-size: clamp(30px, 4.2vw, 44px);
   font-weight: 600;
   letter-spacing: -0.02em;
+  color: var(--dark-ink);
   margin: 0 0 10px;
 }
 
 .final-cta-sub {
   margin: 0 0 28px;
   font-size: 15px;
-  color: var(--ink-soft);
+  color: var(--dark-ink-soft);
 }
 
 .final-cta-btn {
@@ -717,12 +724,13 @@ section {
   transform: scale(0.97);
 }
 
-footer {
-  border-top: 1px solid var(--border);
+.footer-dark {
+  background: var(--dark-bg);
+  border-top: 1px solid var(--dark-border);
   padding-block: 28px;
   text-align: center;
   font-size: 13px;
-  color: var(--ink-faint);
+  color: var(--dark-ink-faint);
 }
 
 /* ---------- Reveal-on-load (restrained, not scroll-jacked) ---------- */
