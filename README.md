@@ -34,15 +34,19 @@ Cloudflare Pages with no build step and no other services.
 2. In that sheet, go to **Extensions → Apps Script**.
 3. Delete whatever's in `Code.gs` and paste in the contents of this repo's
    `google-apps-script/Code.gs`.
-4. **Set up the automatic-email safety net (do this once):** in the Apps Script
+4. Near the top of the file, update the `WAITLIST_URL` constant to your real live
+   URL (the Cloudflare Pages `*.pages.dev` link, or your own domain once you have
+   one). The confirmation email's "Share the waitlist" button links there, it's a
+   placeholder until you set it.
+5. **Set up the automatic-email safety net (do this once):** in the Apps Script
    editor's function dropdown (top toolbar), select `setupTrigger`, then click **Run**.
    This installs a time-based trigger that sweeps every 15 minutes for any row whose
    "Emailed" column isn't "Yes" and sends it then, a backup on top of the instant send
    that already happens in `doPost`. Google will ask you to authorize the script the
    first time, that's expected.
-5. Click **Deploy → New deployment**, type **Web app**, execute as **Me**, access
+6. Click **Deploy → New deployment**, type **Web app**, execute as **Me**, access
    **Anyone**. Deploy, and copy the `/exec` URL it gives you.
-6. That URL is already set as the default inside `functions/api/waitlist.js`. If you
+7. That URL is already set as the default inside `functions/api/waitlist.js`. If you
    ever redeploy the script and get a new URL, either update that default directly,
    or set a `GOOGLE_SCRIPT_URL` environment variable in your Cloudflare Pages
    project settings, either way works, the env var wins if both are set.

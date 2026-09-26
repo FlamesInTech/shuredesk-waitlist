@@ -21,6 +21,12 @@
 
 var SHEET_HEADERS = ["Timestamp", "Email", "Source", "Emailed"];
 
+// Update this once you have the real live URL (Cloudflare Pages *.pages.dev,
+// or your own domain once you have one). Used in the confirmation email's
+// share section, sharing "join the waitlist" only works if this points
+// somewhere real.
+var WAITLIST_URL = "https://shuredesk-waitlist.pages.dev";
+
 function doPost(e) {
   try {
     if (!e || !e.postData || !e.postData.contents) {
@@ -115,20 +121,82 @@ function getSheet() {
 
 function sendWelcomeEmail(email) {
   var subject = "You're on the ShureDesk waitlist";
-  var body =
-    "Hey,\n\n" +
-    "Thanks for joining the ShureDesk waitlist. We'll email you the moment early access opens.\n\n" +
-    "We're building this in public, so you'll see real progress along the way, not just a countdown.\n\n" +
-    "Talk soon,\n" +
-    "The ShureDesk team";
+
+  // Plain-text fallback, some inboxes and screen readers show this instead
+  // of the HTML version, so it carries the same real content, not just a
+  // one-line stub.
+  var plainBody =
+    "You're on the ShureDesk waitlist.\n\n" +
+    "ShureDesk is one AI that answers your customers on live chat, WhatsApp, Instagram, " +
+    "Facebook, and the phone, so you're never the one stuck replying at midnight.\n\n" +
+    "What happens next:\n" +
+    "- You're first in line when early access opens, before public pricing.\n" +
+    "- You'll see real progress as it's built, in public, failures included.\n" +
+    "- You get a real say in what ships next.\n\n" +
+    "Know a business losing customers to slow replies? Send them the waitlist:\n" +
+    WAITLIST_URL +
+    "\n\n" +
+    "Building this in public, one real feature at a time.\n" +
+    "Shalom Adoyi, Founder, ShureDesk";
+
+  var htmlBody =
+    '<div style="background:#f5f7fc;padding:32px 16px;font-family:Georgia,\'Times New Roman\',serif;">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;">' +
+    "<tr><td>" +
+    // Wordmark
+    '<div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#0b0b10;margin-bottom:24px;">ShureDesk</div>' +
+    // Card
+    '<div style="background:#ffffff;border:1px solid #e1e6f2;border-radius:16px;padding:32px;">' +
+    '<span style="display:inline-block;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:0.06em;text-transform:uppercase;color:#2954eb;background:#eef2ff;border-radius:999px;padding:5px 12px;margin-bottom:20px;">Coming soon</span>' +
+    '<h1 style="font-family:Georgia,serif;font-size:24px;line-height:1.3;color:#0b0b10;margin:0 0 16px;">You\'re on the list.</h1>' +
+    '<p style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#3f3f46;margin:0 0 24px;">' +
+    "ShureDesk is one AI that answers your customers on live chat, WhatsApp, Instagram, Facebook, " +
+    "and the phone, so you're never the one stuck replying at midnight." +
+    "</p>" +
+    '<p style="font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:0.04em;text-transform:uppercase;color:#6b6b76;margin:0 0 12px;">What happens next</p>' +
+    '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">' +
+    emailListItem("You're first in line when early access opens, before public pricing.") +
+    emailListItem("You'll see real progress as it's built, in public, failures included.") +
+    emailListItem("You get a real say in what ships next.") +
+    "</table>" +
+    // Share callout
+    '<div style="background:#eef2ff;border-radius:12px;padding:20px 22px;margin:0 0 28px;">' +
+    '<p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#0b0b10;margin:0 0 6px;">Know a business losing customers to slow replies?</p>' +
+    '<p style="font-family:Arial,sans-serif;font-size:13.5px;line-height:1.55;color:#3f3f46;margin:0 0 16px;">Forward this, or send them straight to the waitlist. The more real businesses shape this, the better it gets for everyone on the list.</p>' +
+    '<a href="' +
+    WAITLIST_URL +
+    '" style="display:inline-block;background:#2954eb;color:#ffffff;font-family:Arial,sans-serif;font-size:13.5px;font-weight:bold;text-decoration:none;border-radius:999px;padding:10px 20px;">Share the waitlist</a>' +
+    "</div>" +
+    '<p style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#3f3f46;margin:0;">Building this in public, one real feature at a time.</p>' +
+    '<p style="font-family:Georgia,serif;font-size:14px;color:#0b0b10;margin:16px 0 0;"><b>Shalom Adoyi</b><br><span style="font-family:Arial,sans-serif;font-size:12.5px;color:#a3a3ad;">Founder, ShureDesk</span></p>' +
+    "</div>" +
+    // Footer
+    '<p style="font-family:Arial,sans-serif;font-size:12px;color:#a3a3ad;text-align:center;margin:20px 0 0;">You\'re receiving this because you joined the ShureDesk waitlist.</p>' +
+    "</td></tr></table></div>";
 
   try {
-    MailApp.sendEmail(email, subject, body);
+    MailApp.sendEmail({
+      to: email,
+      subject: subject,
+      body: plainBody,
+      htmlBody: htmlBody,
+      name: "ShureDesk",
+    });
     return true;
   } catch (err) {
     Logger.log("sendWelcomeEmail failed for " + email + ": " + err.message);
     return false;
   }
+}
+
+function emailListItem(text) {
+  return (
+    '<tr><td style="padding:0 0 10px;vertical-align:top;width:20px;">' +
+    '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2954eb;margin-top:7px;"></span>' +
+    '</td><td style="padding:0 0 10px;font-family:Arial,sans-serif;font-size:14px;line-height:1.55;color:#3f3f46;">' +
+    text +
+    "</td></tr>"
+  );
 }
 
 function jsonResponse(obj) {
