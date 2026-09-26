@@ -1,5 +1,20 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// --- Nav "Join waitlist" ---
+// The href="#signup" anchor does the actual, reliable scrolling (works even
+// without JS, works on iOS Safari where a bare .focus() call often won't
+// trigger a scroll on its own). This just adds the cursor-ready-to-type
+// convenience on top, once the scroll has had a moment to land.
+const navCta = document.querySelector(".nav-cta");
+if (navCta) {
+  navCta.addEventListener("click", () => {
+    setTimeout(() => {
+      const email = document.getElementById("email");
+      if (email) email.focus({ preventScroll: true });
+    }, 400);
+  });
+}
+
 // --- FAQ accordion ---
 document.querySelectorAll(".faq-item").forEach((item) => {
   const btn = item.querySelector(".faq-q");

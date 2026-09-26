@@ -119,6 +119,8 @@ a {
 }
 
 .nav-cta {
+  display: inline-flex;
+  align-items: center;
   font-size: 13.5px;
   font-weight: 600;
   padding: 8px 16px;
@@ -127,6 +129,7 @@ a {
   color: var(--bg);
   border: none;
   cursor: pointer;
+  text-decoration: none;
   transition: transform 150ms ease, opacity 150ms ease;
 }
 
