@@ -7,18 +7,19 @@ import { fileURLToPath } from "url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..");
 const c = JSON.parse(fs.readFileSync(path.join(HERE, "contact.json"), "utf8"));
-for (const k of ["address", "email", "phone"]) c[k] = (c[k] || "").trim();
+for (const k of ["address", "email", "website", "phone"]) c[k] = (c[k] || "").trim();
 if (!c.email) console.warn("WARNING: contact.json has no email. The pages will not show a contact email, and Meta needs one.");
 
 const mail = (subject) =>
   c.email
     ? `<a href="mailto:${c.email}${subject ? "?subject=" + encodeURIComponent(subject) : ""}">${c.email}</a>`
     : "our contact email";
+const site = () => (c.website ? `<a href="https://${c.website}">${c.website}</a>` : "");
 const footerContact = () => {
-  const parts = [c.address, c.email ? mail() : "", c.phone].filter(Boolean);
+  const parts = [c.address, c.email ? mail() : "", site(), c.phone].filter(Boolean);
   return parts.length ? `<p>${parts.join(" &middot; ")}</p>` : "";
 };
-const contactBlock = () => ["TEQSHURE LIMITED", c.address, c.email ? mail() : "", c.phone].filter(Boolean).join("<br />");
+const contactBlock = () => ["TEQSHURE LIMITED", c.address, c.email ? mail() : "", site(), c.phone].filter(Boolean).join("<br />");
 const UPDATED = "4 October 2026";
 
 const shell = ({ title, desc, slug, body }) => `<!doctype html>
