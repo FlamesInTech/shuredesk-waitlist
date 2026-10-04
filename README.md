@@ -107,11 +107,12 @@ once deployed with the KV binding above.
 
 ## Legal pages (needed for Meta app review)
 
-`privacy/`, `terms/` and `data-deletion/` are plain static pages, served by Cloudflare at
-`/privacy`, `/terms` and `/data-deletion`. They contain three placeholders you must fill
-before deploying: `{{ADDRESS}}`, `{{EMAIL}}` and `{{PHONE}}` (registered address, public
-contact email, public phone). Check with:
+`privacy/`, `terms/` and `data-deletion/` are static pages, served by Cloudflare at `/privacy`,
+`/terms` and `/data-deletion`. They are generated, so do not edit the HTML by hand.
 
-    grep -rn "{{" privacy terms data-deletion
+1. Put your registered address, public contact email and public phone in `legal/contact.json`.
+   Empty fields are left out of the pages. Meta expects at least an email.
+2. Run `node legal/build.mjs` from this folder.
+3. Commit the regenerated pages.
 
 Have the policy text reviewed by someone qualified before submitting it to Meta.

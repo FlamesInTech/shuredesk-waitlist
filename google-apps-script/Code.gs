@@ -25,7 +25,7 @@ var SHEET_HEADERS = ["Timestamp", "Email", "Source", "Emailed"];
 // or your own domain once you have one). Used in the confirmation email's
 // share section, sharing "join the waitlist" only works if this points
 // somewhere real.
-var WAITLIST_URL = "https://shuredesk-waitlist.pages.dev";
+var WAITLIST_URL = "https://shuredesk.pages.dev";
 
 function doPost(e) {
   try {
@@ -143,8 +143,11 @@ function sendWelcomeEmail(email) {
     '<div style="background:#f5f7fc;padding:32px 16px;font-family:Georgia,\'Times New Roman\',serif;">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;">' +
     "<tr><td>" +
-    // Wordmark
-    '<div style="font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#0b0b10;margin-bottom:24px;">ShureDesk</div>' +
+    // Logo, hosted on the waitlist site (assets/logo-email.png, flattened onto the
+    // email background so it stays readable in dark-mode mail clients)
+    '<a href="' +
+    WAITLIST_URL +
+    '" style="text-decoration:none;"><img src="https://shuredesk.pages.dev/assets/logo-email.png" width="180" height="69" alt="ShureDesk" style="display:block;border:0;width:180px;height:auto;margin:0 0 20px;font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#0b0b10;" /></a>' +
     // Card
     '<div style="background:#ffffff;border:1px solid #e1e6f2;border-radius:16px;padding:32px;">' +
     '<span style="display:inline-block;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:0.06em;text-transform:uppercase;color:#2954eb;background:#eef2ff;border-radius:999px;padding:5px 12px;margin-bottom:20px;">Coming soon</span>' +
