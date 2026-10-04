@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data deletion | ShureDesk</title>
+    <meta name="description" content="How to ask TEQSHURE LIMITED to delete your data from ShureDesk." />
+    <link rel="canonical" href="https://shuredesk.pages.dev/data-deletion" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/legal.css" />
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap nav-inner">
+        <a href="/" class="wordmark font-display">ShureDesk</a>
+        <a href="/#signup" class="nav-cta">Join waitlist</a>
+      </div>
+    </nav>
+
+    <main class="wrap legal">
+      <h1 class="font-display">Data deletion</h1>
+      <p class="meta">Last updated 4 October 2026</p>
+
+      <p>
+        You can ask TEQSHURE LIMITED to delete the personal data we hold about you. Choose the case that fits you. We
+        confirm each request by email and complete it within 30 days.
+      </p>
+
+      <h2>If you joined the waitlist</h2>
+      <ol>
+        <li>Email <a href="mailto:{{EMAIL}}?subject=Delete%20my%20data">{{EMAIL}}</a> from the address you signed up with.</li>
+        <li>Use the subject "Delete my data".</li>
+        <li>We remove your email from our waitlist records and confirm when it is done.</li>
+      </ol>
+
+      <h2>If you have a ShureDesk account</h2>
+      <ol>
+        <li>Sign in to the ShureDesk dashboard.</li>
+        <li>Open <strong>Settings</strong>, then <strong>Security</strong>.</li>
+        <li>Choose <strong>Delete account</strong> and confirm.</li>
+      </ol>
+      <p>
+        This permanently deletes your business, its knowledge base and all conversation history. If you can no longer
+        sign in, email us from your account email and we will do it for you.
+      </p>
+
+      <h2>If you messaged a business through WhatsApp, Instagram or Facebook</h2>
+      <p>
+        Your messages belong to the business you contacted, and ShureDesk processes them for that business. You can ask
+        either of us to delete them:
+      </p>
+      <ol>
+        <li>
+          Contact the business directly and ask it to delete your conversation, or
+        </li>
+        <li>
+          Email <a href="mailto:{{EMAIL}}?subject=Delete%20my%20messages">{{EMAIL}}</a> with the name of the business, the
+          platform (WhatsApp, Instagram or Facebook), and your phone number or profile name on that platform, so we can
+          find your conversation. We may ask you to confirm it is yours.
+        </li>
+      </ol>
+
+      <h2>Removing ShureDesk's access through Meta</h2>
+      <p>
+        You can also remove ShureDesk from your Facebook or Instagram settings under Apps and Websites. After you do,
+        we stop receiving new data from that connection. To delete data we already hold, follow the steps above.
+      </p>
+
+      <h2>What we delete</h2>
+      <p>
+        Conversations, contact and lead details, appointment records, account details and connected account tokens
+        linked to the request. We may keep a small amount of information where the law requires it, for example billing
+        records, and short-lived backups are overwritten on their normal schedule.
+      </p>
+      <p>Questions: <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>. See also our <a href="/privacy">Privacy Policy</a>.</p>
+    </main>
+
+    <footer class="footer-dark legal-footer">
+      <div class="wrap">
+        <p>
+          &copy; <span id="year"></span> TEQSHURE LIMITED. ShureDesk is a product of TEQSHURE LIMITED.
+        </p>
+        <p>{{ADDRESS}} &middot; <a href="mailto:{{EMAIL}}">{{EMAIL}}</a> &middot; {{PHONE}}</p>
+        <p>
+          <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a> &middot;
+          <a href="/data-deletion">Data deletion</a>
+        </p>
+      </div>
+    </footer>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

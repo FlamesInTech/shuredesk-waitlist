@@ -104,3 +104,14 @@ browser, or serve the folder with any static server. The `/api/waitlist` call wi
 fail locally (there's no Functions runtime without Cloudflare's `wrangler pages dev`),
 that's expected, the form itself is what to check locally, the real save only works
 once deployed with the KV binding above.
+
+## Legal pages (needed for Meta app review)
+
+`privacy/`, `terms/` and `data-deletion/` are plain static pages, served by Cloudflare at
+`/privacy`, `/terms` and `/data-deletion`. They contain three placeholders you must fill
+before deploying: `{{ADDRESS}}`, `{{EMAIL}}` and `{{PHONE}}` (registered address, public
+contact email, public phone). Check with:
+
+    grep -rn "{{" privacy terms data-deletion
+
+Have the policy text reviewed by someone qualified before submitting it to Meta.

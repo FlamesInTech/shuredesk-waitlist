@@ -1,0 +1,73 @@
+/* Legal pages (privacy, terms, data deletion). Reuses the waitlist's tokens from styles.css. */
+.wordmark {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.legal {
+  max-width: 760px;
+  padding-block: 56px 80px;
+}
+
+.legal h1 {
+  font-size: clamp(32px, 6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.legal .meta {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 0 0 32px;
+}
+
+.legal h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  margin: 40px 0 12px;
+}
+
+.legal h3 {
+  font-size: 16px;
+  margin: 20px 0 8px;
+}
+
+.legal p,
+.legal li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.legal p {
+  margin: 0 0 14px;
+}
+
+.legal ul,
+.legal ol {
+  margin: 0 0 14px;
+  padding-left: 22px;
+  display: grid;
+  gap: 6px;
+}
+
+.legal a {
+  color: var(--primary-dark);
+  text-underline-offset: 3px;
+}
+
+.legal-footer .wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.legal-footer p {
+  margin: 0;
+}
+
+.legal-footer a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
