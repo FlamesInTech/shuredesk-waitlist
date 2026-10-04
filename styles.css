@@ -772,3 +772,21 @@ section {
     transform: translateY(0);
   }
 }
+
+/* ---------- Logo ---------- */
+.wordmark-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+  margin: 0 auto 10px;
+}
