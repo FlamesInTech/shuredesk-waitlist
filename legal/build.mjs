@@ -31,6 +31,10 @@ const shell = ({ title, desc, slug, body }) => `<!doctype html>
     <meta name="description" content="${desc}" />
     <meta property="og:image" content="https://shuredesk.pages.dev/assets/og-image.png" />
     <link rel="canonical" href="https://shuredesk.pages.dev/${slug}" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
